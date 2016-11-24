@@ -3,6 +3,7 @@
  */
 package br.com.alura.loja.resource;
 
+import java.math.BigDecimal;
 import java.net.URI;
 
 import javax.ws.rs.Consumes;
@@ -23,7 +24,7 @@ import br.com.alura.loja.modelo.Carrinho;
 import br.com.alura.loja.modelo.Produto;
 
 /**
- * @author rodrigo.bezerra
+ * @author Thiago Silveira
  *
  */
 @Path("carrinhos")
@@ -62,5 +63,10 @@ public class CarrinhoResource {
 		Produto produto = (Produto) new XStream().fromXML(conteudo);
 		carrinho.trocaQuantidade(produto);		
 		return Response.accepted().build();
+	}
+	
+	private BigDecimal calcularQuantidade(Produto p, int quantidade){
+		BigDecimal valor = new BigDecimal(p.getPreco());
+		return valor.multiply(new BigDecimal(quantidade));
 	}
 }

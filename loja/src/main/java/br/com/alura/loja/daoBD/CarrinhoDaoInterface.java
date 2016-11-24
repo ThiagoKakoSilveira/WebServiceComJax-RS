@@ -10,10 +10,10 @@ public interface CarrinhoDaoInterface {
 	
 	public void deletar(Carrinho car);
 	
-	public void atualizar();
+	public void atualizar(Carrinho car);
 	
 	public List<Carrinho> listarCarrinhos();
 	
-	public Carrinho procurarPorCodigo();
+	public Carrinho procurarPorCodigo(int id);
 
 }
