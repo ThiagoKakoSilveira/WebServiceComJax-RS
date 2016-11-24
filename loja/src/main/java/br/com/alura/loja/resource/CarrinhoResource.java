@@ -55,7 +55,7 @@ public class CarrinhoResource {
 		carrinho.remove(produtoId);
 		return Response.ok().build();
 	}
-	
+	//analisar esse método pois não estou usando o parâmetro de id do produto
 	@Path("{id}/produtos/{produtoId}/quantidade")
 	@PUT
 	public Response alteraProduto(String conteudo, @PathParam("id") long id, @PathParam("produtoId") long produtoId){
