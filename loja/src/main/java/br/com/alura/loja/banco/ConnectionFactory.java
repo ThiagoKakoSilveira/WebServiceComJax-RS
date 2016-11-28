@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 
 public class ConnectionFactory {
 	private final static String HOST = "localhost";
-	private final static String PORT = "5432";
-	private final static String BD = "Venda_Passagem";
+	private final static String PORT = "5433";
+	private final static String BD = "BdSD2";
 	private final static String URL = "jdbc:postgresql://" + HOST + ":" + PORT + "/" + BD;
 	private final static String USUARIO = "postgres";
 	private final static String SENHA = "meubd";

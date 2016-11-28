@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 import com.thoughtworks.xstream.XStream;
 
 import br.com.alura.loja.dao.CarrinhoDAO;
+import br.com.alura.loja.daoBD.CarrinhoDaoBD;
 import br.com.alura.loja.modelo.Carrinho;
 import br.com.alura.loja.modelo.Produto;
 
@@ -34,7 +35,9 @@ public class CarrinhoResource {
 	@GET
 	@Produces(MediaType.APPLICATION_XML)
 	public String busca(@PathParam("id")long id){
-		Carrinho carrinho = new CarrinhoDAO().busca(id);
+//		Carrinho carrinho = new CarrinhoDAO().busca(id);	COMO ESTAVA ANTES DO MEU DAO
+//		return carrinho.toXML();
+		Carrinho carrinho = new Carrinho(new CarrinhoDaoBD().procurarPorCodigo(id));
 		return carrinho.toXML();
 	}
 	
@@ -55,18 +58,23 @@ public class CarrinhoResource {
 		carrinho.remove(produtoId);
 		return Response.ok().build();
 	}
-	//analisar esse método pois não estou usando o parâmetro de id do produto
+	//analisar esse mï¿½todo pois nï¿½o estou usando o parï¿½metro de id do produto
 	@Path("{id}/produtos/{produtoId}/quantidade")
 	@PUT
 	public Response alteraProduto(String conteudo, @PathParam("id") long id, @PathParam("produtoId") long produtoId){
 		Carrinho carrinho = new CarrinhoDAO().busca(id);
-		Produto produto = (Produto) new XStream().fromXML(conteudo);
-		carrinho.trocaQuantidade(produto);		
-		return Response.accepted().build();
+		Response statusCode = Response.notModified().build();
+		if(carrinho != null){
+			Produto produto = (Produto) new XStream().fromXML(conteudo);
+			for (Produto p : carrinho.getProdutos()) {
+				if(p.getId() == produtoId){
+					carrinho.troca(produto);
+					new CarrinhoDaoBD().atualizaProduto(produto,carrinho.getId());
+					statusCode = Response.accepted().build(); 
+				}
+			}
+		}
+		return statusCode;
 	}
 	
-	private BigDecimal calcularQuantidade(Produto p, int quantidade){
-		BigDecimal valor = new BigDecimal(p.getPreco());
-		return valor.multiply(new BigDecimal(quantidade));
-	}
 }

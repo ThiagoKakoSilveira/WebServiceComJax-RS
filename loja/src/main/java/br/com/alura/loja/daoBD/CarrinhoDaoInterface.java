@@ -14,6 +14,6 @@ public interface CarrinhoDaoInterface {
 	
 	public List<Carrinho> listarCarrinhos();
 	
-	public Carrinho procurarPorCodigo(int id);
+	public Carrinho procurarPorCodigo(long id);
 
 }

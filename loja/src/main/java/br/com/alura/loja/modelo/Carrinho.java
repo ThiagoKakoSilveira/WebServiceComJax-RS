@@ -1,5 +1,6 @@
 package br.com.alura.loja.modelo;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -13,12 +14,21 @@ public class Carrinho {
 	private String rua;
 	private String cidade;
 	private long id;
+	private double valorTotal;
 	
 	public Carrinho(List<Produto> produtos, String rua, String cidade, long id) {
 		this.produtos = produtos;
 		this.rua = rua;
 		this.cidade = cidade;
 		this.id = id;
+		this.valorTotal = calcularQuantidade(produtos).doubleValue();
+	}	
+	
+	public Carrinho(Carrinho car){
+		this.id = car.getId();
+		this.rua = car.getRua();
+		this.cidade = car.getCidade();		
+		this.valorTotal = calcularQuantidade(car.getProdutos()).doubleValue();		
 	}
 	
 	public Carrinho(){
@@ -26,7 +36,17 @@ public class Carrinho {
 	}
 	
 	public void adiciona(Produto produto){
-		this.produtos.add(produto);
+		boolean add = false;
+		for (Produto p : produtos) {
+			if(p.getId()==produto.getId()){
+				add = true;
+				p.setQuantidade((p.getQuantidade() + produto.getQuantidade()));
+				troca(p);
+			}			
+		}
+		if(!add){
+			this.produtos.add(produto);
+		}		
 	}
 
 	public Carrinho setId(long id) {
@@ -57,6 +77,14 @@ public class Carrinho {
 		this.produtos = produtos;
 	}
 	
+	public double getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+	
 	public void remove(long id) {
 		for (Iterator<Produto> iterator = produtos.iterator(); iterator.hasNext();) {
 			Produto produto = (Produto) iterator.next();
@@ -81,6 +109,16 @@ public class Carrinho {
 		}
 	}
 	
+	private BigDecimal calcularQuantidade(List<Produto> lista){		
+		BigDecimal valorTotal = new BigDecimal(0);
+		for (Produto p : lista) {
+			BigDecimal valorP = new BigDecimal(p.getPreco());
+			valorP.multiply(new BigDecimal(p.getQuantidade()));
+			valorTotal = valorTotal.add(valorP);
+		}
+		return valorTotal;
+	}
+	
 	public List<Produto> getProdutos() {
 		return produtos;
 	}
@@ -92,5 +130,5 @@ public class Carrinho {
 	public String toJson() {
 		return new Gson().toJson(this);
 	}
-
+	
 }

@@ -9,7 +9,8 @@ create table produto(
 create table carrinho(
     id serial primary key,
     cidade varchar(30) not null,
-    rua varchar(50) not null
+    rua varchar(50) not null,
+    valorTotal numeric not null--foi colocado depois ainda não foram feitos testes na base.
 );
 
 create table itemCarrinho(
@@ -45,6 +46,16 @@ insert into itemcarrinho(carrinhoid, produto, quantidade) values
 (5,1,1),
 (5,3,1);
 
+#UPDATES
+UPDATE itemcarrinho SET quantidade=2 WHERE carrinhoid=1 and produto=2;
+
 #SELECTS       
 select * from produto;
-select * from carrinho as c join itemCarrinho as ic on c.id = ic.carrinhoid join produto as p on ic.produto = p.id order by c.id        
+select * from carrinho;
+select * from itemcarrinho;
+select * from carrinho as c join itemCarrinho as ic on c.id = ic.carrinhoid join produto as p on ic.produto = p.id where c.id=1 order by c.id
+
+SELECT c.id, c.cidade, c.rua, ic.quantidade, p.id, p.nome, p.preco FROM carrinho as c 
+join itemcarrinho as ic on c.id= ic.carrinhoid 
+join produto as p on p.id = ic.produto 
+where c.id=1;
