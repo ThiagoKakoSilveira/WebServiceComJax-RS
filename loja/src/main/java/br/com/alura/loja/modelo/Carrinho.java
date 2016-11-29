@@ -117,7 +117,7 @@ public class Carrinho {
 		BigDecimal valorTotal = new BigDecimal(0);
 		for (Produto p : lista) {
 			BigDecimal valorP = new BigDecimal(p.getPreco());
-			valorP.multiply(new BigDecimal(p.getQuantidade()));
+			valorP = valorP.multiply(new BigDecimal(p.getQuantidade()));
 			valorTotal = valorTotal.add(valorP);
 		}
 		return valorTotal;
@@ -133,6 +133,10 @@ public class Carrinho {
 		xStream.processAnnotations(Produto.class);
 //		xStream.autodetectAnnotations(true);
 		xStream.alias("Produtos", Collection.class);
+//		StringBuilder teste = new StringBuilder(xStream.toXML(this));
+//		for (Produto produto : produtos) {
+//			teste.replace("<produtos class=", "list/>", xStream.toXML(produto));			
+//		}
 		return xStream.toXML(this);
 	}
 
