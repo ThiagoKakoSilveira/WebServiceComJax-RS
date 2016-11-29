@@ -1,12 +1,14 @@
 package br.com.alura.loja.modelo;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+@XStreamAlias("Produto")
 public class Produto {
 
-	private double preco;
 	private long id;
 	private String nome;
+	private double preco;
 	private int quantidade;
 	
 	public Produto(long id, String nome, double preco, int quantidade) {
@@ -41,6 +43,8 @@ public class Produto {
 	}
 	
 	public String toXML() {
-		return new XStream().toXML(this);
+		XStream xStream = new XStream();
+		xStream.processAnnotations(Produto.class);
+		return xStream.toXML(this);
 	}
 }

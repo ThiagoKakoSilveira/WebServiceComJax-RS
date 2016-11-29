@@ -128,30 +128,7 @@ public class CarrinhoDaoBD implements CarrinhoDaoInterface {
 	@Override
 	public Carrinho procurarPorCodigo(long id) {
 		List<Produto>listaProdutos = new ArrayList<>();
-		Carrinho car = null;
-				
-		String sqlCar = "SELECT id, cidade, rua from carrinho where id=?";
-		try {
-			conectar(sqlCar);
-			comando.setLong(1, id);
-			
-			ResultSet resultCarro = comando.executeQuery();
-			
-			if(resultCarro.next()){
-				int idCar = resultCarro.getInt(1);
-				String cidade = resultCarro.getString(2);
-				String rua = resultCarro.getString(3);
-				
-				car = new Carrinho(listaProdutos, rua, cidade, idCar);
-			}else{
-				return null;
-			}
-			
-		} catch (SQLException ex) {
-			Logger.getLogger(CarrinhoDaoBD.class.getName()).log(Level.SEVERE, null, ex);
-		} finally {
-			fecharConexao();
-		}
+		Carrinho car = null;		
 		
 		String sql = "SELECT ic.quantidade, p.id, p.nome, p.preco FROM carrinho as c "
 				+ "join itemcarrinho as ic on c.id= ic.carrinhoid "
@@ -181,6 +158,28 @@ public class CarrinhoDaoBD implements CarrinhoDaoInterface {
 			fecharConexao();
 		}
 		
+		String sqlCar = "SELECT id, cidade, rua from carrinho where id=?";
+		try {
+			conectar(sqlCar);
+			comando.setLong(1, id);
+			
+			ResultSet resultCarro = comando.executeQuery();
+			
+			if(resultCarro.next()){
+				int idCar = resultCarro.getInt(1);
+				String cidade = resultCarro.getString(2);
+				String rua = resultCarro.getString(3);
+				
+				car = new Carrinho(listaProdutos, rua, cidade, idCar);
+			}else{
+				return null;
+			}
+			
+		} catch (SQLException ex) {
+			Logger.getLogger(CarrinhoDaoBD.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			fecharConexao();
+		}		
 		 return car;
 	}
 

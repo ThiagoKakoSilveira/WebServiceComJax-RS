@@ -3,7 +3,6 @@
  */
 package br.com.alura.loja.resource;
 
-import java.math.BigDecimal;
 import java.net.URI;
 
 import javax.ws.rs.Consumes;
@@ -36,7 +35,7 @@ public class CarrinhoResource {
 	@Produces(MediaType.APPLICATION_XML)
 	public String busca(@PathParam("id")long id){
 //		Carrinho carrinho = new CarrinhoDAO().busca(id);	COMO ESTAVA ANTES DO MEU DAO
-//		return carrinho.toXML();
+//		return carrinho.toXML();		
 		Carrinho carrinho = new Carrinho(new CarrinhoDaoBD().procurarPorCodigo(id));
 		return carrinho.toXML();
 	}
@@ -58,7 +57,7 @@ public class CarrinhoResource {
 		carrinho.remove(produtoId);
 		return Response.ok().build();
 	}
-	//analisar esse m�todo pois n�o estou usando o par�metro de id do produto
+	//analisar esse método pois não estou usando o parâmetro de id do produto
 	@Path("{id}/produtos/{produtoId}/quantidade")
 	@PUT
 	public Response alteraProduto(String conteudo, @PathParam("id") long id, @PathParam("produtoId") long produtoId){

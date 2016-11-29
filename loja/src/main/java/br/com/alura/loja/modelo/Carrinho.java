@@ -2,18 +2,22 @@ package br.com.alura.loja.modelo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+@XStreamAlias("Carrinho")
 public class Carrinho {
 
-	private List<Produto> produtos = new ArrayList<Produto>();
-	private String rua;
-	private String cidade;
 	private long id;
+	private String cidade;
+	private String rua;
+	
+	private Collection<Produto> produtos = new ArrayList<Produto>();
 	private double valorTotal;
 	
 	public Carrinho(List<Produto> produtos, String rua, String cidade, long id) {
@@ -109,7 +113,7 @@ public class Carrinho {
 		}
 	}
 	
-	private BigDecimal calcularQuantidade(List<Produto> lista){		
+	private BigDecimal calcularQuantidade(Collection<Produto> lista){		
 		BigDecimal valorTotal = new BigDecimal(0);
 		for (Produto p : lista) {
 			BigDecimal valorP = new BigDecimal(p.getPreco());
@@ -119,12 +123,17 @@ public class Carrinho {
 		return valorTotal;
 	}
 	
-	public List<Produto> getProdutos() {
+	public Collection<Produto> getProdutos() {
 		return produtos;
 	}
 	
 	public String toXML() {
-		return new XStream().toXML(this);
+		XStream xStream = new XStream();
+		xStream.processAnnotations(Carrinho.class);
+		xStream.processAnnotations(Produto.class);
+//		xStream.autodetectAnnotations(true);
+		xStream.alias("Produtos", Collection.class);
+		return xStream.toXML(this);
 	}
 
 	public String toJson() {
