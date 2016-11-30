@@ -17,11 +17,49 @@ public class Carrinho {
 	private List<Produto> produtos;
 	private double valorTotal;
 	
+	public Carrinho(Usuario user, List<Produto>prods){
+		produtos = new ArrayList<>();
+		this.usuario = user;
+		this.produtos = prods;
+		this.valorTotal = calcularQuantidade(prods).doubleValue();
+	}
 		
 	public Carrinho(){
 		
 	}
 	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
+
+	public double getValorTotal() {
+		return valorTotal;
+	}
+
+	public void setValorTotal(double valorTotal) {
+		this.valorTotal = valorTotal;
+	}
+
 	public void adiciona(Produto produto){
 		boolean add = false;
 		for (Produto p : produtos) {
@@ -36,10 +74,10 @@ public class Carrinho {
 		}		
 	}
 
-	public Carrinho setId(long id) {
-		this.id = id;
-		return this;
-	}
+//	public Carrinho setId(long id) {
+//		this.id = id;
+//		return this;
+//	}
 
 		public void remove(long id) {
 		for (Iterator<Produto> iterator = produtos.iterator(); iterator.hasNext();) {

@@ -40,7 +40,7 @@ public class ClienteTest {
 		server = Servidor.inicializaServidor();
 		String conteudo = target.path("/carrinhos/1").request().get(String.class);
 		Carrinho carrinho = (Carrinho) new XStream().fromXML(conteudo);
-		Assert.assertEquals("Rua Santo Antonio 347", carrinho.getRua());
+		Assert.assertEquals("Rua Santo Antonio 347", carrinho);
 		server.stop();
 	}
 	
@@ -49,8 +49,8 @@ public class ClienteTest {
 		server = Servidor.inicializaServidor();
 		Carrinho carrinho = new Carrinho();
 		carrinho.adiciona(new Produto(314, "Microfone", 37, 1));
-		carrinho.setCidade("Porto Alegre");
-		carrinho.setRua("João Salomini 715");
+//		carrinho.setCidade("Porto Alegre");
+//		carrinho.setRua("Joï¿½o Salomini 715");
 		String xml = carrinho.toXML();
 		Entity<String> entity = Entity.entity(xml, MediaType.APPLICATION_XML);
 		Response response = target.path("/carrinhos").request().post(entity);

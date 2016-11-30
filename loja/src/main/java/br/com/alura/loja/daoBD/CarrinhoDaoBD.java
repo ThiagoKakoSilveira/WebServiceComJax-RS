@@ -158,7 +158,11 @@ public class CarrinhoDaoBD implements CarrinhoDaoInterface {
 			fecharConexao();
 		}
 		
-		String sqlCar = "SELECT id, cidade, rua from carrinho where id=?";
+		String sqlCar = "SELECT * from carrinho as c "
+				+ "join usuario as u on c.usuarioId = u.id "
+				+ "join endereco as end on u.enderecoId = end.id "
+				+ "join contato as cont on u.contadoId = cont.id "
+				+ "where id=?";
 		try {
 			conectar(sqlCar);
 			comando.setLong(1, id);

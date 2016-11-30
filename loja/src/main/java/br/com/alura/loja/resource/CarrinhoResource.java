@@ -45,7 +45,7 @@ public class CarrinhoResource {
 	public Response adiciona(String conteudo){
 		Carrinho carrinho = (Carrinho) new XStream().fromXML(conteudo);
 		new CarrinhoDaoBD().inserir(carrinho);
-		URI uri = URI.create("/carrinhos/" + carrinho.getId());
+		URI uri = URI.create("/carrinhos/" + carrinho);
 		return Response.created(uri).build();		
 	}
 	

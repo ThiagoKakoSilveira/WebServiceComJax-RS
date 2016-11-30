@@ -1,7 +1,7 @@
 create table produto(
     id serial primary key,
     nome varchar(20) not null,
-    preco numeric not null
+    preco numeric 
 );
 
 create table Endereco(
@@ -9,7 +9,7 @@ create table Endereco(
 	cidade varchar(50) not null,
 	rua varchar(50) not null,
 	numero integer not null,
-	complemento varchar(10)
+	complemento varchar(30)
 );
 
 create table contato(
@@ -37,7 +37,7 @@ create table usuario(
 create table carrinho(
     id serial primary key,
 	usuarioId bigInt references usuario,
-    valorTotal numeric not null
+    valorTotal numeric
 );
 
 create table itemCarrinho(
@@ -48,12 +48,13 @@ create table itemCarrinho(
 );
 
 #INSERTS
-insert into carrinho (cidade, rua) values
-('Porto Alegre', 'João Salomini 715/101'),
-('Curitiba', 'João Coxa Branca 2155'),
-('Chapecó', 'Furacão Verde 57'),
-('São Paulo', 'Morumbi 1100'),
-('Rio de Janeiro', 'Gal. Augusto Menezes 2500');
+insert into endereco(cidade, rua, numero, complemento) values
+('Porto Alegre', 'João Salomini', 715, '101'),
+('Curitiba', 'João Coxa Branca', 2155, null),
+('Chapecó', 'Furacão Verde', 57,'Beco do índio 20'),
+('São Paulo', 'Morumbi', 1100, null),
+('Florianópolis', 'Rio vermolho', 1715, null),
+('Rio de Janeiro', 'Gal. Augusto Menezes', 2500, null);
 
 insert into produto(nome, preco) values
 ('Playstation 4', 4000),
@@ -63,8 +64,23 @@ insert into produto(nome, preco) values
 ('Playstation 2', 399.90),
 ('Playstation 1', 99.90);
 
+insert into contato(email) values
+('kaksongracie@gmail.com'),
+('coxaAteMorre@hotmail.com.br'),
+('carolosZagueiro@terra.com.br'),
+('pedroPedrada@outlook.com'),
+('rickSilveira@gmail.com'),
+('kayronSilveira@gmail.com');
 
-insert into itemcarrinho(carrinhoid, produto, quantidade) values
+insert into carrinho (usuarioId) values
+(1),
+(2),
+(3),
+(4),
+(5),
+(6);
+
+insert into itemcarrinho(carrinhoid, produtoId, quantidade) values
 (1,1,1),
 (1,2,1),
 (2,3,1),
@@ -73,8 +89,27 @@ insert into itemcarrinho(carrinhoid, produto, quantidade) values
 (5,1,1),
 (5,3,1);
 
+insert into usuario(nome, sobrenome, documentoIdent, dataNasc, enderecoId, contatoId) values
+('Thiago', 'Machado Silveira', '00578710008', TO_DATE('12-12-1984', 'DD-MM-YYYY'), 1),
+('Thales', 'Albuquerquer Rodriguez', '00678711010', TO_DATE('10-09-1970', 'DD-MM-YYYY'), 2),
+('Carlos', 'Nogueira Coloruva', '10057520014', TO_DATE('22-01-1990', 'DD-MM-YYYY'), 3),
+('Pedro', 'Siria Bogotá', '00489535418', TO_DATE('22-01-1994', 'DD-MM-YYYY'), 4),
+('Rickson', 'da Silva Silveira', '57894865480', TO_DATE('15-05-2010', 'DD-MM-YYYY'), 5),
+('Kayron', 'da Silva Silveira', '59845630084', TO_DATE('18-09-2011', 'DD-MM-YYYY'), 6);
+
+insert into telefone(contatoId, prefixotel, numero) values
+(1, '051', '996717010'),
+(1, '051', '98314277'),
+(2, '041', '999574828'),
+(3, '049', '985784922'),
+(4, '011', '981486751'),
+(5, '048', '982467711'),
+(6, '021', '997364853');
+
 #UPDATES
 UPDATE itemcarrinho SET quantidade=2 WHERE carrinhoid=1 and produto=2;
+update contato set email='kayronSilveira@gmail.com' where id = 6
+update endereco set cidade='Florianópolis', rua='Rio vermolho', numero = 1715, complemento=null where id = 5
 
 #SELECTS       
 select * from produto;
@@ -96,4 +131,5 @@ where c.id=1;
 
 #ALTERS
 --ALTERS
+alter table endereco alter column complemento TYPE varchar(30);
 alter table carrinho alter column valortotal drop not null;
