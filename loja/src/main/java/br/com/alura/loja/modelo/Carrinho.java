@@ -2,7 +2,6 @@ package br.com.alura.loja.modelo;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,27 +13,11 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 public class Carrinho {
 
 	private long id;
-	private String cidade;
-	private String rua;
-	
-	private List<Produto> produtos = new ArrayList<Produto>();
+	private Usuario usuario;
+	private List<Produto> produtos;
 	private double valorTotal;
 	
-	public Carrinho(List<Produto> produtos, String rua, String cidade, long id) {
-		this.produtos = produtos;
-		this.rua = rua;
-		this.cidade = cidade;
-		this.id = id;
-		this.valorTotal = calcularQuantidade(produtos).doubleValue();
-	}	
-	
-	public Carrinho(Carrinho car){
-		this.id = car.getId();
-		this.rua = car.getRua();
-		this.cidade = car.getCidade();		
-		this.valorTotal = calcularQuantidade(car.getProdutos()).doubleValue();		
-	}
-	
+		
 	public Carrinho(){
 		
 	}
@@ -58,38 +41,7 @@ public class Carrinho {
 		return this;
 	}
 
-	public String getRua() {
-		return rua;
-	}
-
-	public void setRua(String rua) {
-		this.rua = rua;
-	}
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-	
-	public long getId() {
-		return id;
-	}
-	
-	public String getCidade() {
-		return cidade;
-	}
-	
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
-	}
-	
-	public double getValorTotal() {
-		return valorTotal;
-	}
-
-	public void setValorTotal(double valorTotal) {
-		this.valorTotal = valorTotal;
-	}
-	
-	public void remove(long id) {
+		public void remove(long id) {
 		for (Iterator<Produto> iterator = produtos.iterator(); iterator.hasNext();) {
 			Produto produto = (Produto) iterator.next();
 			if(produto.getId() == id) {
@@ -113,7 +65,7 @@ public class Carrinho {
 		}
 	}
 	
-	private BigDecimal calcularQuantidade(Collection<Produto> lista){		
+	private BigDecimal calcularQuantidade(List<Produto> lista){		
 		BigDecimal valorTotal = new BigDecimal(0);
 		for (Produto p : lista) {
 			BigDecimal valorP = new BigDecimal(p.getPreco());
@@ -122,21 +74,11 @@ public class Carrinho {
 		}
 		return valorTotal;
 	}
-	
-	public List<Produto> getProdutos() {
-		return produtos;
-	}
-	
+		
 	public String toXML() {
 		XStream xStream = new XStream();
-		xStream.processAnnotations(Carrinho.class);
-		xStream.processAnnotations(Produto.class);
-//		xStream.autodetectAnnotations(true);
-		xStream.alias("Produtos", Collection.class);
-//		StringBuilder teste = new StringBuilder(xStream.toXML(this));
-//		for (Produto produto : produtos) {
-//			teste.replace("<produtos class=", "list/>", xStream.toXML(produto));			
-//		}
+		xStream.autodetectAnnotations(true);
+		
 		return xStream.toXML(this);
 	}
 

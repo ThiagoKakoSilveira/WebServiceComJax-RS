@@ -44,7 +44,7 @@ public class CarrinhoResource {
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response adiciona(String conteudo){
 		Carrinho carrinho = (Carrinho) new XStream().fromXML(conteudo);
-		new CarrinhoDAO().adiciona(carrinho);
+		new CarrinhoDaoBD().inserir(carrinho);
 		URI uri = URI.create("/carrinhos/" + carrinho.getId());
 		return Response.created(uri).build();		
 	}
@@ -61,7 +61,7 @@ public class CarrinhoResource {
 	@Path("{id}/produtos/{produtoId}/quantidade")
 	@PUT
 	public Response alteraProduto(String conteudo, @PathParam("id") long id, @PathParam("produtoId") long produtoId){
-		Carrinho carrinho = new CarrinhoDAO().busca(id);
+		Carrinho carrinho = new CarrinhoDaoBD().procurarPorCodigo(id);
 		Response statusCode = Response.notModified().build();
 		if(carrinho != null){
 			Produto produto = (Produto) new XStream().fromXML(conteudo);
