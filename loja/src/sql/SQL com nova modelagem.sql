@@ -10,19 +10,19 @@ create table Endereco(
 	rua varchar(50) not null,
 	numero integer not null,
 	complemento varchar(10)
-)
+);
+
+create table contato(
+	id serial primary key,
+	email VARCHAR(50),	
+);
 
 create table telefone(
 	idTelefone serial primary key,
 	contatoId bigInt references contato,
 	prefixotel char(3) not null,
 	numero varchar(9) not null
-)
-
-create table contato(
-	id serial primary key,
-	email VARCHAR(50),	
-)	
+);
 
 create table usuario(
 	id serial primary key,
@@ -36,9 +36,8 @@ create table usuario(
 
 create table carrinho(
     id serial primary key,
-    cidade varchar(30) not null,
-    rua varchar(50) not null,
-    valorTotal numeric not null--foi colocado depois ainda não foram feitos testes na base.
+	usuarioId bigInt references usuario,
+    valorTotal numeric not null
 );
 
 create table itemCarrinho(
@@ -81,9 +80,20 @@ UPDATE itemcarrinho SET quantidade=2 WHERE carrinhoid=1 and produto=2;
 select * from produto;
 select * from carrinho;
 select * from itemcarrinho;
-select * from carrinho as c join itemCarrinho as ic on c.id = ic.carrinhoid join produto as p on ic.produto = p.id where c.id=1 order by c.id
+
+select * from carrinho as c 
+join itemCarrinho as ic 
+on c.id = ic.carrinhoid 
+join produto as p 
+on ic.produtoId = p.id 
+where c.id=1 order by c.id
+
 
 SELECT c.id, c.cidade, c.rua, ic.quantidade, p.id, p.nome, p.preco FROM carrinho as c 
 join itemcarrinho as ic on c.id= ic.carrinhoid 
 join produto as p on p.id = ic.produto 
 where c.id=1;
+
+#ALTERS
+--ALTERS
+alter table carrinho alter column valortotal drop not null;

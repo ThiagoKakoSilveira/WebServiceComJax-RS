@@ -2,10 +2,14 @@
 curl -v http://localhost:8080/carrinhos/1 
 
 *****// comando para alterar produto no servidor
-curl -v -X "PUT" -d "<br.com.alura.loja.modelo.Produto><id>3467</id><quantidade>1</quantidade></br.com.alura.loja.modelo.Produto>" http://localhost:8080/carrinhos/1/produtos/6237 
+curl -v -X "PUT" -d "<br.com.alura.loja.modelo.Produto><id>3467</id><quantidade>1</quantidade></br.com.alura.loja.modelo.Produto>" http://localhost:8080/carrinhos/1/produtos/2/quantidade 
 
 *****// comando para excluir produto no servidor
 curl -v -X "DELETE" http://localhost:8080/carrinhos/1/produtos/6237
 
 *****// comando para adicionar produto no servidor
-curl -v -H "Content-Type: application/xml" -d "<br.com.alura.loja.modelo.Produto><preco>60.0</preco><id>3467</id><nome>Jogo de Esporte</nome><quantidade>1</quantidade></br.com.alura.loja.modelo.Produto>" http://localhost:8080/carrinhos/1/produtos/6237
+curl -v -H "Content-Type: application/xml" -d "<br.com.alura.loja.modelo.Produto><id>3467</id><nome>Controle PlayStation 4</nome><preco>260.9</preco><quantidade>1</quantidade></br.com.alura.loja.modelo.Produto>" http://localhost:8080/carrinhos/1/produtos/6237
+
+*****// comando para adicionar carrinho no servidor alterar o conteúdo pois está enviando um produto
+curl -v -H "Content-Type: application/xml" -d "<br.com.alura.loja.modelo.Carrinho><cidade>Controle PlayStation 4</nome><preco>260.9</preco><quantidade>1</quantidade></br.com.alura.loja.modelo.Carrinho>" http://localhost:8080/carrinhos/1/produtos/6237
+
