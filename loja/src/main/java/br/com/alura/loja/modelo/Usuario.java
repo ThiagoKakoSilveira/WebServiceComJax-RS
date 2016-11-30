@@ -4,28 +4,37 @@ import java.time.LocalDate;
 
 public class Usuario {
 
-	private String email;
+	private long id;	
 	private String nome;
 	private String sobrenome;
-	private String cpf;
+	private String docIdentifica;
 	private LocalDate dataNasc;
 	private Endereco endereco;
+	private Contato contato;
 	
-	public Usuario(String email, String nome, String sobrenome, String cpf, LocalDate dataNasc, Endereco endereco) {
-		this.email = email;
+	public Usuario(String nome, String sobrenome, String cpf, LocalDate dataNasc, Endereco endereco, Contato contato) {
 		this.nome = nome;
 		this.sobrenome = sobrenome;
-		this.cpf = cpf;
+		this.docIdentifica = cpf;
 		this.dataNasc = dataNasc;
-		this.endereco = endereco;
+		this.endereco = endereco;		
+		this.contato = contato;
+	}
+	
+	public long getId() {
+		return id;
 	}
 
-	public String getEmail() {
-		return email;
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	public Contato getContato() {
+		return contato;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setContato(Contato contato) {
+		this.contato = contato;
 	}
 
 	public String getNome() {
@@ -44,12 +53,12 @@ public class Usuario {
 		this.sobrenome = sobrenome;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public String getDocIdentifica() {
+		return docIdentifica;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
+	public void setDocIdentifica(String cpf) {
+		this.docIdentifica = cpf;
 	}
 
 	public LocalDate getDataNasc() {
@@ -67,5 +76,5 @@ public class Usuario {
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-			
+	
 }

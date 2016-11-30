@@ -4,7 +4,35 @@ create table produto(
     preco numeric not null
 );
 
---analisar com o Matheus se vale colocar o um usuário para o Carrinho para dar sentido pois aí teriamos q desenvolver sistema de login.
+create table Endereco(
+	id serial primary key,
+	cidade varchar(50) not null,
+	rua varchar(50) not null,
+	numero integer not null,
+	complemento varchar(10)
+)
+
+create table telefone(
+	idTelefone serial primary key,
+	contatoId bigInt references contato,
+	prefixotel char(3) not null,
+	numero varchar(9) not null
+)
+
+create table contato(
+	id serial primary key,
+	email VARCHAR(50),	
+)	
+
+create table usuario(
+	id serial primary key,
+	nome varchar(30) not null,
+	sobrenome varchar(60) not null,	
+	documentoIdent varchar(14) not null,
+	dataNasc date not null,
+	enderecoId bigInt references endereco,
+	contatoId bigInt references contato
+);
 
 create table carrinho(
     id serial primary key,
@@ -16,7 +44,7 @@ create table carrinho(
 create table itemCarrinho(
     id serial primary key,
     carrinhoId bigInt references carrinho,
-    produto bigInt references produto,
+    produtoId bigInt references produto,
 	quantidade integer not null
 );
 

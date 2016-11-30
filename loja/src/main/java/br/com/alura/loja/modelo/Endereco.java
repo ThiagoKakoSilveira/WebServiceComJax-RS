@@ -1,6 +1,7 @@
 package br.com.alura.loja.modelo;
 
 public class Endereco {
+	private long id;
 	private String cidade;
 	private String rua;
 	private int numero;
@@ -14,6 +15,14 @@ public class Endereco {
 		this.complemento = complemento;
 	}
 	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public Endereco(){
 		
 	}
