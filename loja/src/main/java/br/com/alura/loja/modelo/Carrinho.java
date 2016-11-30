@@ -17,7 +17,7 @@ public class Carrinho {
 	private String cidade;
 	private String rua;
 	
-	private Collection<Produto> produtos = new ArrayList<Produto>();
+	private List<Produto> produtos = new ArrayList<Produto>();
 	private double valorTotal;
 	
 	public Carrinho(List<Produto> produtos, String rua, String cidade, long id) {
@@ -123,7 +123,7 @@ public class Carrinho {
 		return valorTotal;
 	}
 	
-	public Collection<Produto> getProdutos() {
+	public List<Produto> getProdutos() {
 		return produtos;
 	}
 	

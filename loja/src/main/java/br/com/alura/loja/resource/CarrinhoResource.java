@@ -36,7 +36,7 @@ public class CarrinhoResource {
 	public String busca(@PathParam("id")long id){
 //		Carrinho carrinho = new CarrinhoDAO().busca(id);	COMO ESTAVA ANTES DO MEU DAO
 //		return carrinho.toXML();		
-		Carrinho carrinho = new Carrinho(new CarrinhoDaoBD().procurarPorCodigo(id));
+		Carrinho carrinho = new CarrinhoDaoBD().procurarPorCodigo(id);
 		return carrinho.toXML();
 	}
 	
