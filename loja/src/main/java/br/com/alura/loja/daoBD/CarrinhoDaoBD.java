@@ -71,7 +71,13 @@ public class CarrinhoDaoBD implements CarrinhoDaoInterface {
 		}
 		
 		try{
-			String sql = "INSERT INTO ITEMCARRINHO()";
+			String sql = "INSERT INTO ITEMCARRINHO(carrinhoId, produtoId, quantidade) VALUES(?, ?, ?)";
+			conectar(sql);
+			for (Produto produto : listaProds) {
+				comando.setLong(1, car.getCarrinhoId());
+				comando.setLong(2, produto.getId());
+				comando.setLong(3, produto.getQuantidade());
+			}
 			
 		}catch (SQLException ex) {
 			Logger.getLogger(CarrinhoDaoBD.class.getName()).log(Level.SEVERE, null, ex);
