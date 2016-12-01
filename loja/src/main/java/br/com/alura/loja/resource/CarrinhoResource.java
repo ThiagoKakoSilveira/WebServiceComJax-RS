@@ -21,8 +21,9 @@ import com.thoughtworks.xstream.XStream;
 import br.com.alura.loja.dao.CarrinhoDAO;
 import br.com.alura.loja.daoBD.CarrinhoDaoBD;
 import br.com.alura.loja.modelo.Carrinho;
-import br.com.alura.loja.modelo.Montador;
 import br.com.alura.loja.modelo.Produto;
+import br.com.alura.loja.modeloAuxiliar.MontaAdicCar;
+import br.com.alura.loja.modeloAuxiliar.MontadorApresentacao;
 
 /**
  * @author Thiago Silveira
@@ -37,16 +38,16 @@ public class CarrinhoResource {
 	public String busca(@PathParam("id")long id){
 //		Carrinho carrinho = new CarrinhoDAO().busca(id);	COMO ESTAVA ANTES DO MEU DAO
 //		return carrinho.toXML();		
-		Montador carrinho = new CarrinhoDaoBD().procurarPorCodigo(id);
+		MontadorApresentacao carrinho = new CarrinhoDaoBD().procurarPorCodigo(id);
 		return carrinho.toXML();
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response adiciona(String conteudo){
-		Carrinho carrinho = (Carrinho) new XStream().fromXML(conteudo);
+		MontaAdicCar carrinho = (MontaAdicCar) new XStream().fromXML(conteudo);
 		new CarrinhoDaoBD().inserir(carrinho);
-		URI uri = URI.create("/carrinhos/" + carrinho.getId());
+		URI uri = URI.create("/carrinhos/" + carrinho.getCarrinhoId());
 		return Response.created(uri).build();		
 	}
 	

@@ -1,4 +1,4 @@
-package br.com.alura.loja.modelo;
+package br.com.alura.loja.modeloAuxiliar;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -8,9 +8,11 @@ import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import br.com.alura.loja.modelo.Produto;
+
 @XStreamAlias("Carrinho")
-public class Montador {
-	private long idCarrinho;
+public class MontadorApresentacao {
+	private long idCarrinho;	
 	private String nomeUsuario;
 	private String email;
 	@XStreamAlias("Produtos")
@@ -18,7 +20,7 @@ public class Montador {
 	private double valorTotal;	
 	
 	
-	public Montador(long idCarrinho, String nomeUsuario, String email, List<Produto> listaProduto) {
+	public MontadorApresentacao(long idCarrinho, String nomeUsuario, String email, List<Produto> listaProduto) {
 		listaProduto = new ArrayList<>();
 		this.idCarrinho = idCarrinho;
 		this.nomeUsuario = nomeUsuario;
@@ -27,7 +29,7 @@ public class Montador {
 		this.valorTotal = calcularQuantidade(listaProduto).doubleValue();
 	}
 	
-	public Montador(long idCarrinho, String nomeUsuario, String email) {
+	public MontadorApresentacao(long idCarrinho, String nomeUsuario, String email) {
 		this.idCarrinho = idCarrinho;
 		this.nomeUsuario = nomeUsuario;
 		this.email = email;		

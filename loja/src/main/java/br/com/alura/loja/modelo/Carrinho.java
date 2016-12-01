@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+import br.com.alura.loja.modeloAuxiliar.MontadorApresentacao;
+
 @XStreamAlias("Carrinho")
 public class Carrinho {
 
@@ -32,7 +34,7 @@ public class Carrinho {
 		this.valorTotal = calcularQuantidade(prods).doubleValue();
 	}
 	
-	public Carrinho(Montador valores){
+	public Carrinho(MontadorApresentacao valores){
 		
 	}
 		
