@@ -123,13 +123,20 @@ select * from telefone;
 
 ####SELECTS DE MÉTODOS
 
+select c.id, u.nome, con.email, ic.quantidade, p.nome, p.preco, p.id from carrinho as c 
+join usuario as u on c.usuarioid = u.id
+join contato as con on u.contatoId = con.id
+join endereco as ende on u.enderecoId = ende.id
+join itemCarrinho as ic on c.id = ic.carrinhoid 
+join produto as p on ic.produtoId = p.id 
+where c.id=7 order by c.id
+
 select * from carrinho as c 
 join itemCarrinho as ic 
 on c.id = ic.carrinhoid 
 join produto as p 
 on ic.produtoId = p.id 
 where c.id=1 order by c.id
-
 
 SELECT c.id, c.cidade, c.rua, ic.quantidade, p.id, p.nome, p.preco FROM carrinho as c 
 join itemcarrinho as ic on c.id= ic.carrinhoid 
