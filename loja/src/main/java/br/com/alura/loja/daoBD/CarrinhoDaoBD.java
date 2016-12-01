@@ -3,7 +3,9 @@ package br.com.alura.loja.daoBD;
 import java.util.List;
 
 import br.com.alura.loja.modelo.Carrinho;
+import br.com.alura.loja.modelo.Montador;
 import br.com.alura.loja.modelo.Produto;
+import contratos.CarrinhoDaoInterface;
 import br.com.alura.loja.banco.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,8 +27,6 @@ public class CarrinhoDaoBD implements CarrinhoDaoInterface {
 			String sql = "INSERT INTO CARRINHO (cidade, rua) " + "VALUES(?,?)";
 
 			conectarObtendoId(sql);
-			comando.setString(1, car.getCidade());
-			comando.setString(2, car.getRua());
 			comando.executeUpdate();
 
 			ResultSet consulta = comando.getGeneratedKeys();
@@ -65,8 +65,6 @@ public class CarrinhoDaoBD implements CarrinhoDaoInterface {
 
 			conectar(sql);
 			comando.setLong(1, car.getId());
-			comando.setString(2, car.getRua());
-			comando.setString(3, car.getCidade());
 			comando.executeUpdate();
 
 		} catch (SQLException ex) {
@@ -76,17 +74,17 @@ public class CarrinhoDaoBD implements CarrinhoDaoInterface {
 		}
 
 	}
-	
-	public void atualizaProduto(Produto prod, long carId){
+
+	public void atualizaProduto(Produto prod, long carId) {
 		try {
 			String sql = "UPDATE itemcarrinho SET quantidade=? WHERE carrinhoid=? and produto=?";
-			
+
 			conectar(sql);
-			comando.setInt(1, prod.getQuantidade());			
+			comando.setInt(1, prod.getQuantidade());
 			comando.setLong(2, carId);
 			comando.setLong(3, prod.getId());
 			comando.executeUpdate();
-			
+
 		} catch (SQLException ex) {
 			Logger.getLogger(CarrinhoDaoBD.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
@@ -104,16 +102,11 @@ public class CarrinhoDaoBD implements CarrinhoDaoInterface {
 
 		try {
 			conectar(sql);
-			
+
 			ResultSet resultado = comando.executeQuery();
-			
-			while(resultado.next()){				
-				//criação do carrinho				
-				long idCar = resultado.getLong(1);
-				String cidadeCar = resultado.getString(2);
-				String ruaCar = resultado.getString(3);
-				//criação dos produtos
-//				if(resultado.next()) ver como vou fazer isso
+
+			while (resultado.next()) {
+				// criação do carrinho
 			}
 
 		} catch (SQLException ex) {
@@ -126,65 +119,53 @@ public class CarrinhoDaoBD implements CarrinhoDaoInterface {
 	}
 
 	@Override
-	public Carrinho procurarPorCodigo(long id) {
-		List<Produto>listaProdutos = new ArrayList<>();
-		Carrinho car = null;		
-		
-		String sql = "SELECT ic.quantidade, p.id, p.nome, p.preco FROM carrinho as c "
-				+ "join itemcarrinho as ic on c.id= ic.carrinhoid "
-				+ "join produto as p on p.id = ic.produto "
-				+ "where c.id=?";
-		
+	public Montador procurarPorCodigo(long id) {
+		List<Produto> listaProdutos = new ArrayList<>();
+		Montador montador = null;
+		boolean motou = false;
+		// 					   1 	  2 	    3 			4 			5		 6 		7
+		String sql = "select c.id, u.nome, con.email, ic.quantidade, p.nome, p.preco, p.id from carrinho as c "
+				+ "join usuario as u on c.usuarioid = u.id " + "join contato as con on u.contatoId = con.id "
+				+ "join endereco as ende on u.enderecoId = ende.id "
+				+ "join itemCarrinho as ic on c.id = ic.carrinhoid " + "join produto as p on ic.produtoId = p.id "
+				+ "where c.id=? order by c.id";
+
 		try {
-			
+
 			conectar(sql);
 			comando.setLong(1, id);
-			
+
 			ResultSet resultado = comando.executeQuery();
-			
-			while(resultado.next()){
-				int quanti = resultado.getInt(1);
-				int prodId = resultado.getInt(2);
-				String prodNome = resultado.getString(3);
-				double prodPreco = resultado.getDouble(4);
-				
+
+			while (resultado.next()) {
+				int quanti = resultado.getInt(4);
+				long prodId = resultado.getLong(7);
+				String prodNome = resultado.getString(5);
+				double prodPreco = resultado.getDouble(6);
+
 				Produto prod = new Produto(prodId, prodNome, prodPreco, quanti);
-				listaProdutos.add(prod);				
+				listaProdutos.add(prod);
+				
+				if(!motou){
+					long idCar = resultado.getLong(1);
+					String nome = resultado.getString(2);
+					String email = resultado.getString(3);
+					
+					montador = new Montador(idCar, nome, email);
+					motou = true;
+				}
+
 			}
-			
+
 		} catch (SQLException ex) {
 			Logger.getLogger(CarrinhoDaoBD.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
 			fecharConexao();
 		}
 		
-		String sqlCar = "SELECT * from carrinho as c "
-				+ "join usuario as u on c.usuarioId = u.id "
-				+ "join endereco as end on u.enderecoId = end.id "
-				+ "join contato as cont on u.contadoId = cont.id "
-				+ "where id=?";
-		try {
-			conectar(sqlCar);
-			comando.setLong(1, id);
-			
-			ResultSet resultCarro = comando.executeQuery();
-			
-			if(resultCarro.next()){
-				int idCar = resultCarro.getInt(1);
-				String cidade = resultCarro.getString(2);
-				String rua = resultCarro.getString(3);
-				
-				car = new Carrinho(listaProdutos, rua, cidade, idCar);
-			}else{
-				return null;
-			}
-			
-		} catch (SQLException ex) {
-			Logger.getLogger(CarrinhoDaoBD.class.getName()).log(Level.SEVERE, null, ex);
-		} finally {
-			fecharConexao();
-		}		
-		 return car;
+		montador.setListaProduto(listaProdutos);
+
+		return montador;
 	}
 
 	public void conectar(String sql) throws SQLException {

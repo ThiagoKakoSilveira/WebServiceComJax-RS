@@ -23,6 +23,18 @@ public class Carrinho {
 		this.produtos = prods;
 		this.valorTotal = calcularQuantidade(prods).doubleValue();
 	}
+	
+	public Carrinho(long id, Usuario user, List<Produto>prods){
+		produtos = new ArrayList<>();
+		this.id = id;
+		this.usuario = user;
+		this.produtos = prods;
+		this.valorTotal = calcularQuantidade(prods).doubleValue();
+	}
+	
+	public Carrinho(Montador valores){
+		
+	}
 		
 	public Carrinho(){
 		

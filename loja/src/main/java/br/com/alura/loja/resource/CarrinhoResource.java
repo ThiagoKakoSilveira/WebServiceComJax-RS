@@ -21,6 +21,7 @@ import com.thoughtworks.xstream.XStream;
 import br.com.alura.loja.dao.CarrinhoDAO;
 import br.com.alura.loja.daoBD.CarrinhoDaoBD;
 import br.com.alura.loja.modelo.Carrinho;
+import br.com.alura.loja.modelo.Montador;
 import br.com.alura.loja.modelo.Produto;
 
 /**
@@ -36,7 +37,7 @@ public class CarrinhoResource {
 	public String busca(@PathParam("id")long id){
 //		Carrinho carrinho = new CarrinhoDAO().busca(id);	COMO ESTAVA ANTES DO MEU DAO
 //		return carrinho.toXML();		
-		Carrinho carrinho = new CarrinhoDaoBD().procurarPorCodigo(id);
+		Montador carrinho = new CarrinhoDaoBD().procurarPorCodigo(id);
 		return carrinho.toXML();
 	}
 	
@@ -45,7 +46,7 @@ public class CarrinhoResource {
 	public Response adiciona(String conteudo){
 		Carrinho carrinho = (Carrinho) new XStream().fromXML(conteudo);
 		new CarrinhoDaoBD().inserir(carrinho);
-		URI uri = URI.create("/carrinhos/" + carrinho);
+		URI uri = URI.create("/carrinhos/" + carrinho.getId());
 		return Response.created(uri).build();		
 	}
 	
@@ -57,23 +58,24 @@ public class CarrinhoResource {
 		carrinho.remove(produtoId);
 		return Response.ok().build();
 	}
+	
 	//analisar esse método pois não estou usando o parâmetro de id do produto
-	@Path("{id}/produtos/{produtoId}/quantidade")
-	@PUT
-	public Response alteraProduto(String conteudo, @PathParam("id") long id, @PathParam("produtoId") long produtoId){
-		Carrinho carrinho = new CarrinhoDaoBD().procurarPorCodigo(id);
-		Response statusCode = Response.notModified().build();
-		if(carrinho != null){
-			Produto produto = (Produto) new XStream().fromXML(conteudo);
-			for (Produto p : carrinho.getProdutos()) {
-				if(p.getId() == produtoId){
-					carrinho.troca(produto);
-					new CarrinhoDaoBD().atualizaProduto(produto,carrinho.getId());
-					statusCode = Response.accepted().build(); 
-				}
-			}
-		}
-		return statusCode;
-	}
+//	@Path("{id}/produtos/{produtoId}/quantidade")
+//	@PUT
+//	public Response alteraProduto(String conteudo, @PathParam("id") long id, @PathParam("produtoId") long produtoId){
+//		Carrinho carrinho = new CarrinhoDaoBD().procurarPorCodigo(id);
+//		Response statusCode = Response.notModified().build();
+//		if(carrinho != null){
+//			Produto produto = (Produto) new XStream().fromXML(conteudo);
+//			for (Produto p : carrinho.getProdutos()) {
+//				if(p.getId() == produtoId){
+//					carrinho.troca(produto);
+//					new CarrinhoDaoBD().atualizaProduto(produto,carrinho.getId());
+//					statusCode = Response.accepted().build(); 
+//				}
+//			}
+//		}
+//		return statusCode;
+//	}
 	
 }

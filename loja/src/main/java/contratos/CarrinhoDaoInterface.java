@@ -1,8 +1,9 @@
-package br.com.alura.loja.daoBD;
+package contratos;
 
 import java.util.List;
 
 import br.com.alura.loja.modelo.Carrinho;
+import br.com.alura.loja.modelo.Montador;
 
 public interface CarrinhoDaoInterface {
 	
@@ -14,6 +15,6 @@ public interface CarrinhoDaoInterface {
 	
 	public List<Carrinho> listarCarrinhos();
 	
-	public Carrinho procurarPorCodigo(long id);
+	public Montador procurarPorCodigo(long id);
 
 }

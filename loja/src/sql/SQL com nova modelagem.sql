@@ -14,7 +14,7 @@ create table Endereco(
 
 create table contato(
 	id serial primary key,
-	email VARCHAR(50),	
+	email VARCHAR(50)
 );
 
 create table telefone(
@@ -87,7 +87,8 @@ insert into itemcarrinho(carrinhoid, produtoId, quantidade) values
 (3,4,1),
 (4,5,1),
 (5,1,1),
-(5,3,1);
+(5,3,1),
+(6,6,1);
 
 insert into usuario(nome, sobrenome, documentoIdent, dataNasc, enderecoId, contatoId) values
 ('Thiago', 'Machado Silveira', '00578710008', TO_DATE('12-12-1984', 'DD-MM-YYYY'), 1),
@@ -115,6 +116,12 @@ update endereco set cidade='Florianópolis', rua='Rio vermolho', numero = 1715, 
 select * from produto;
 select * from carrinho;
 select * from itemcarrinho;
+select * from contato;
+select * from endereco;
+select * from usuario;
+select * from telefone;
+
+####SELECTS DE MÉTODOS
 
 select * from carrinho as c 
 join itemCarrinho as ic 
@@ -128,6 +135,14 @@ SELECT c.id, c.cidade, c.rua, ic.quantidade, p.id, p.nome, p.preco FROM carrinho
 join itemcarrinho as ic on c.id= ic.carrinhoid 
 join produto as p on p.id = ic.produto 
 where c.id=1;
+
+select * from carrinho as c 
+join usuario as u on c.usuarioid = u.id
+join contato as con on u.contatoId = con.id
+join endereco as ende on u.enderecoId = ende.id
+join itemCarrinho as ic on c.id = ic.carrinhoid 
+join produto as p on ic.produtoId = p.id 
+where c.id=7 order by c.id
 
 #ALTERS
 --ALTERS
