@@ -45,7 +45,9 @@ public class CarrinhoResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_XML)
 	public Response adiciona(String conteudo){
-		MontaAdicCar carrinho = (MontaAdicCar) new XStream().fromXML(conteudo);
+		XStream xStream = new XStream();
+		xStream.autodetectAnnotations(true);
+		MontaAdicCar carrinho = (MontaAdicCar) xStream.fromXML(conteudo);
 		new CarrinhoDaoBD().inserir(carrinho);
 		URI uri = URI.create("/carrinhos/" + carrinho.getCarrinhoId());
 		return Response.created(uri).build();		

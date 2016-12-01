@@ -13,3 +13,5 @@ curl -v -H "Content-Type: application/xml" -d "<br.com.alura.loja.modelo.Produto
 *****// comando para adicionar carrinho no servidor alterar o conteúdo pois está enviando um produto
 curl -v -H "Content-Type: application/xml" -d "<br.com.alura.loja.modelo.Carrinho><cidade>Controle PlayStation 4</nome><preco>260.9</preco><quantidade>1</quantidade></br.com.alura.loja.modelo.Carrinho>" http://localhost:8080/carrinhos/1/produtos/6237
 
+*****//comando para adicionar carrinho com produtos no servidor
+curl -v -H "Content-Type: application/xml" -d "<Dados><usuarioId>7</usuarioId><carrinhoId>1</carrinhoId><Produtos><Produto><id>1</id><quantidade>1</quantidade></Produto><Produto><id>2</id><quantidade>1</quantidade></Produto></Produtos></Dados>" http://localhost:8080/carrinhos/
