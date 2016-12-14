@@ -5,9 +5,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.google.gson.Gson;
 import com.thoughtworks.xstream.XStream;
 
+//1ª Anotação diz para o JAXB q esse objeto é serializável
+//2ª Anotação diz q todos o campos serão serializados
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Carrinho {
 
 	private List<Produto> produtos = new ArrayList<Produto>();

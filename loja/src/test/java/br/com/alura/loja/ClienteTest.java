@@ -12,7 +12,7 @@ import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.junit.Test;
 
-import com.thoughtworks.xstream.XStream;
+//import com.thoughtworks.xstream.XStream;
 
 import br.com.alura.loja.modelo.Carrinho;
 import br.com.alura.loja.modelo.Produto;
@@ -38,8 +38,9 @@ public class ClienteTest {
 	@Test
 	public void testaQueAConexaoComOServidorFunciona(){		
 		server = Servidor.inicializaServidor();
-		String conteudo = target.path("/carrinhos/1").request().get(String.class);
-		Carrinho carrinho = (Carrinho) new XStream().fromXML(conteudo);
+//		String conteudo = target.path("/carrinhos/1").request().get(String.class); AQUI USANDO XStream
+//		Carrinho carrinho = (Carrinho) new XStream().fromXML(conteudo); EM BAIXO USANDO JAXB
+		Carrinho carrinho = target.path("/carrinhos/1").request().get(Carrinho.class);
 		Assert.assertEquals("Rua Santo Antonio 347", carrinho.getRua());
 		server.stop();
 	}
@@ -50,14 +51,17 @@ public class ClienteTest {
 		Carrinho carrinho = new Carrinho();
 		carrinho.adiciona(new Produto(314, "Microfone", 37, 1));
 		carrinho.setCidade("Porto Alegre");
-		carrinho.setRua("João Salomini 715");
-		String xml = carrinho.toXML();
-		Entity<String> entity = Entity.entity(xml, MediaType.APPLICATION_XML);
+		carrinho.setRua("Joï¿½o Salomini 715");
+//		String xml = carrinho.toXML();
+//		Entity<String> entity = Entity.entity(xml, MediaType.APPLICATION_XML); ANTES MANDAVA O XML COM JAXB SE MANDA DIRETO O OBJETO
+		Entity<Carrinho> entity = Entity.entity(carrinho, MediaType.APPLICATION_XML);
 		Response response = target.path("/carrinhos").request().post(entity);
 		Assert.assertEquals(201, response.getStatus());
 		String location = response.getHeaderString("Location");
-		String conteudo = cliente.target(location).request().get(String.class);
-		Assert.assertTrue(conteudo.contains("Microfone"));
+//		String conteudo = cliente.target(location).request().get(String.class);
+//		Assert.assertTrue(conteudo.contains("Microfone")); AQUI COMO STRING E EMBAIXO COM JAXB 
+		Carrinho carrinhoCarregado = cliente.target(location).request().get(Carrinho.class);
+		Assert.assertEquals("Microfone", carrinhoCarregado.getProdutos().get(0).getNome());
 		server.stop();
 	}
 
